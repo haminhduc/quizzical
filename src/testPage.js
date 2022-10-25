@@ -13,14 +13,15 @@ function TestPage() {
     const quizzBlock = document.querySelector(".test");
     const quizz = data.results;
     quizz.forEach((quiz) => {
-      const newP = document.createElement("p");
-      // const newAnswer1 = document.createElement("span");
-      // const newAnswer2 = document.createElement("span");
-      // const newAnswer3 = document.createElement("span");
-      // const newAnswer4 = document.createElement("span");
+      const newQuestion = document.createElement("p");
+      const answerSpan = document.createElement("span");
 
-      newP.textContent = decode(quiz.question);
-      quizzBlock.appendChild(newP);
+      newQuestion.textContent = decode(quiz.question) + "\n";
+
+      const allAnswers = [...quiz.incorrect_answers];
+      allAnswers.push(quiz.correct_answer);
+      console.log(allAnswers);
+      quizzBlock.append(newQuestion, answerSpan);
     });
   }
   getQuestions(handleQuestionDisplay);
@@ -34,6 +35,26 @@ function TestPage() {
 
     return txt.value;
   }
+  // shuffle answers
+  // function shuffle(array) {
+  //   let currentIndex = array.length,
+  //     randomIndex;
+
+  //   // While there remain elements to shuffle.
+  //   while (currentIndex !== 0) {
+  //     // Pick a remaining element.
+  //     randomIndex = Math.floor(Math.random() * currentIndex);
+  //     currentIndex--;
+
+  //     // And swap it with the current element.
+  //     [array[currentIndex], array[randomIndex]] = [
+  //       array[randomIndex],
+  //       array[currentIndex],
+  //     ];
+  //   }
+
+  //   return array;
+  // }
 }
 
 export default TestPage;
