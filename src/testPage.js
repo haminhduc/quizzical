@@ -12,44 +12,49 @@ function TestPage() {
     console.log(data);
     const quizzBlock = document.querySelector(".test");
     const quizz = data.results;
+
     quizz.forEach((quiz) => {
-      const questionContainer = document.createElement("div");
       const questionContent = document.createElement("p");
+      const questionContainer = document.createElement("div");
       const answersContent = document.createElement("div");
       const lines = document.createElement("hr");
       questionContainer.classList.add("question-container");
-      // questionContent.setAttribute(
-      //   "id",
-      //   `question-number-${quizz.indexOf(quiz) + 1}`
-      // );
-      // answersContent.classList.add("answers-container");
+      questionContent.setAttribute(
+        "id",
+        `question-number-${quizz.indexOf(quiz) + 1}`
+      );
+      answersContent.classList.add("answers-container");
 
-      // questionContent.textContent = decode(quiz.question) + "\n";
+      questionContent.textContent = decode(quiz.question) + "\n";
 
+      // work with answers
       const allAnswers = [...quiz.incorrect_answers];
       allAnswers.push(quiz.correct_answer);
       shuffle(allAnswers);
       //display answers
       answersContent.innerHTML = allAnswers
         .map(
-          (answer) => `<div>
-        <input type="radio" name="answer" value="${answer}" id="question-${quizz.indexOf(
-            quiz
-          )}--answer-${allAnswers.indexOf(answer)}">
+          (answer) =>
+            `<div>
+        <input type="radio" name="question-no-${quizz.indexOf(
+          quiz
+        )}" value="${answer}" id="question-${quizz.indexOf(
+              quiz
+            )}--answer-${allAnswers.indexOf(answer)}">
          <label for="question-${quizz.indexOf(
            quiz
          )}--answer-${allAnswers.indexOf(answer)}">${answer}</label>
     </div>`
         )
         .join(" ");
-      const radioButtons = document.querySelectorAll('input[name="answer"]');
-      for (const radioButton of radioButtons) {
-        radioButton.addEventListener("change", handleSelectAnswer);
-      }
 
       questionContainer.append(questionContent, answersContent);
       quizzBlock.append(questionContainer, lines);
     });
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    for (const radioButton of radioButtons) {
+      radioButton.addEventListener("change", handleSelectAnswer);
+    }
   }
 
   // handle decode special characters
@@ -82,9 +87,8 @@ function TestPage() {
   }
   // handle select answer
   function handleSelectAnswer(e) {
-    // console.log(e);
     if (this.checked) {
-      console.log("run");
+      console.log(this.value);
     }
   }
   getQuestions(handleQuestionDisplay);
