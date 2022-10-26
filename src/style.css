@@ -4,9 +4,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 * {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+p {
+  margin: 0;
 }
 .App {
   background-color: rgba(255, 255, 255, 0.945);
@@ -40,4 +44,23 @@ body {
 .test {
   width: 80%;
   height: 85%;
+}
+.answers-container {
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: space-around;
+}
+
+input[type="radio"] {
+  display: none;
+  cursor: pointer;
+}
+
+label {
+  padding: 3px;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+.selectedAnswer {
+  background-color: rgb(144, 209, 144);
 }

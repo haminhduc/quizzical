@@ -7,24 +7,48 @@ function TestPage() {
       .then((data) => data.json())
       .then(callback);
   }
-
+  // handle questions displaying
   function handleQuestionDisplay(data) {
     console.log(data);
     const quizzBlock = document.querySelector(".test");
     const quizz = data.results;
     quizz.forEach((quiz) => {
-      const newQuestion = document.createElement("p");
-      const answerSpan = document.createElement("span");
+      const questionContainer = document.createElement("div");
+      const questionContent = document.createElement("p");
+      const answersContent = document.createElement("div");
+      const lines = document.createElement("hr");
+      questionContainer.classList.add("question-container");
+      // questionContent.setAttribute(
+      //   "id",
+      //   `question-number-${quizz.indexOf(quiz) + 1}`
+      // );
+      // answersContent.classList.add("answers-container");
 
-      newQuestion.textContent = decode(quiz.question) + "\n";
+      // questionContent.textContent = decode(quiz.question) + "\n";
 
       const allAnswers = [...quiz.incorrect_answers];
       allAnswers.push(quiz.correct_answer);
       shuffle(allAnswers);
-      allAnswers.forEach((answer) => {
-        answerSpan.textContent += decode(answer) + " ---  ";
-      });
-      quizzBlock.append(newQuestion, answerSpan);
+      //display answers
+      answersContent.innerHTML = allAnswers
+        .map(
+          (answer) => `<div>
+        <input type="radio" name="answer" value="${answer}" id="question-${quizz.indexOf(
+            quiz
+          )}--answer-${allAnswers.indexOf(answer)}">
+         <label for="question-${quizz.indexOf(
+           quiz
+         )}--answer-${allAnswers.indexOf(answer)}">${answer}</label>
+    </div>`
+        )
+        .join(" ");
+      const radioButtons = document.querySelectorAll('input[name="answer"]');
+      for (const radioButton of radioButtons) {
+        radioButton.addEventListener("change", handleSelectAnswer);
+      }
+
+      questionContainer.append(questionContent, answersContent);
+      quizzBlock.append(questionContainer, lines);
     });
   }
 
@@ -55,6 +79,13 @@ function TestPage() {
     }
 
     return array;
+  }
+  // handle select answer
+  function handleSelectAnswer(e) {
+    // console.log(e);
+    if (this.checked) {
+      console.log("run");
+    }
   }
   getQuestions(handleQuestionDisplay);
   return <div className="test"></div>;
