@@ -1,0 +1,17 @@
+[33mcommit 3be0e7d608cf70fe2c0afb798a0578f7eadd10fd[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: haminhduc <haminhduc407@mail.com>
+Date:   Tue Oct 25 20:56:32 2022 +0700
+
+    put all answers into one array
+
+[33mcommit 343037074492bfccdd09ea743af247b8fafea471[m
+Author: haminhduc <haminhduc407@mail.com>
+Date:   Tue Oct 25 12:31:37 2022 +0700
+
+    add decode function
+
+[33mcommit 0d1bcb0d0d37c3ef39ee4628e59747ea19c40893[m
+Author: haminhduc <haminhduc407@mail.com>
+Date:   Tue Oct 25 11:24:16 2022 +0700
+
+    1st commmnit
