@@ -41,14 +41,18 @@ p {
   margin-top: 20px;
   width: 100px;
 }
+
 .test {
-  width: 80%;
+  width: 95%;
   height: 85%;
+  padding: 20px;
+  overflow: auto;
 }
 .answers-container {
-  display: flex;
-  /* flex-direction: row; */
-  justify-content: space-around;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 250px 250px;
+  gap: 10px;
 }
 
 input[type="radio"] {
@@ -59,8 +63,14 @@ input[type="radio"] {
 label {
   padding: 3px;
   border: 1px solid black;
-  border-radius: 3px;
+  border-radius: 6px;
 }
-.selectedAnswer {
-  background-color: rgb(144, 209, 144);
+/* highlight selected label */
+input[type="radio"]:checked + label {
+  border: 3px solid rgb(107, 201, 111);
+}
+.submit-button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 25px;
 }
