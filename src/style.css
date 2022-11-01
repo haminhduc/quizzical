@@ -74,3 +74,16 @@ input[type="radio"]:checked + label {
   margin: 0 auto;
   margin-top: 25px;
 }
+.wrong-selection {
+  background-color: rgb(235, 62, 62);
+  opacity: 90;
+  border: 0 !important ;
+}
+.correct-selection {
+  border: 0 !important ;
+  background-color: rgb(85, 231, 85);
+  opacity: 90;
+}
+.hide-button {
+  display: none;
+}

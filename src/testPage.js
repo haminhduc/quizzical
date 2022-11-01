@@ -2,19 +2,18 @@ import React from "react";
 function TestPage() {
   const triviaAPI = "https://opentdb.com/api.php?amount=5";
   let score = 0;
-
   // get data from api
   function getQuestions(callback) {
     fetch(triviaAPI)
       .then((data) => data.json())
       .then(callback);
   }
-  // handle quizz displaying
+  // display quizz
   function handleQuizzDisplay(data) {
     console.log(data);
     const quizzBlock = document.querySelector(".test");
     const quizz = data.results;
-    //handle questions display
+    //create html elements for questions
     quizz.forEach((quiz) => {
       const questionContent = document.createElement("p");
       const questionContainer = document.createElement("div");
@@ -29,12 +28,11 @@ function TestPage() {
 
       questionContent.textContent = decode(quiz.question) + "\n";
       // console.log(quiz.correct_answer);
-      // work with
 
       const allAnswers = [...quiz.incorrect_answers];
       allAnswers.push(quiz.correct_answer);
       shuffle(allAnswers);
-
+      //create html elements for answers of each question
       allAnswers.forEach((answer) => {
         const answerDiv = document.createElement("div");
         const answerInput = document.createElement("input");
@@ -51,9 +49,9 @@ function TestPage() {
           )}`
         );
 
-        answerInput.addEventListener("change", (event) => {
-          handleSelectAnswer(event, quiz.correct_answer);
-        });
+        // answerInput.addEventListener("change", (event) => {
+        //   handleSelectAnswer(event, quiz.correct_answer);
+        // });
 
         const answerLabel = document.createElement("label");
         answerLabel.setAttribute(
@@ -75,7 +73,7 @@ function TestPage() {
       quizzBlock.append(questionContainer, lines);
     });
 
-    // add submitButton
+    // create submitButton
     const submitButton = document.createElement("button");
     const resultLine = document.createElement("div");
     submitButton.onclick = () => {
@@ -83,31 +81,64 @@ function TestPage() {
     };
     submitButton.setAttribute("type", "submit");
     submitButton.classList.add("submit-button", "btn", "btn-primary");
-    // submitButton.addEventListener("click", handleSubmit);
     submitButton.innerHTML = "Check answers";
     quizzBlock.append(resultLine, submitButton);
+    // create restart button
+    const restartButton = document.createElement("button");
+    restartButton.classList.add("restart-button", "btn", "btn-success");
+    restartButton.innerHTML = "restart";
+    restartButton.onclick = () => {
+      handleRestart();
+    };
+    // handle change button
+    function changeButton() {
+      submitButton.classList.add("hide-button");
+      quizzBlock.append(restartButton);
+    }
 
     //handle result
 
     function handleResult(questionsData) {
       var answerContainers = quizzBlock.querySelectorAll(".answers-container");
-
+      console.log(answerContainers);
       var userAnswer = "";
+      var userAnswerID = "";
+
       for (var i = 0; i < questionsData.length; i++) {
-        userAnswer = answerContainers[i].querySelector(
-          "input[name=question-no-" + i + "]:checked" || {}
-        ).value;
-        // console.log(userAnswer);
-        // console.log(questionsData[i].correct_answer);
-        if (userAnswer === questionsData[i].correct_answer) {
-          //     // add to the number of correct answers
-          score++;
-        }
-        //   // if answer is wrong or blank
-        else {
+        const answerLocation = answerContainers[i].querySelector(
+          "input[name=question-no-" + i + "]:checked"
+        );
+        if (answerLocation === null) {
+          alert("please answer all 5 questions");
+          return changeButton();
+        } else {
+          userAnswer = answerLocation.value;
+          userAnswerID = answerContainers[i].querySelector(
+            "input[name=question-no-" + i + "]:checked"
+          ).id;
+
+          if (userAnswer === questionsData[i].correct_answer) {
+            //     // add to the number of correct answers
+            score++;
+
+            document
+              .querySelector("label[for=" + userAnswerID + "]")
+              .classList.add("correct-selection");
+            // .classList.add("correct_selection");
+          }
+          //   // if answer is wrong or blank
+          else {
+            document
+              .querySelector("label[for=" + userAnswerID + "]")
+              .classList.add("wrong-selection");
+
+            // answerContainers[i].querySelector("label[" + userAnswerID + "]");
+            // .classList.add("wrong_selection");
+          }
         }
       }
       resultLine.innerHTML = `you have ${score} correct answers`;
+      changeButton();
     }
   }
 
@@ -118,6 +149,10 @@ function TestPage() {
     txt.innerHTML = str;
 
     return txt.value;
+  }
+  //handle restart
+  function handleRestart() {
+    window.location = "http://localhost:3000";
   }
   // shuffle answers
   function shuffle(array) {
@@ -139,19 +174,6 @@ function TestPage() {
 
     return array;
   }
-  // handle select answer
-  function handleSelectAnswer(event, correct_answer) {
-    if (event.target.checked) {
-      // console.log("hehe");
-    }
-  }
-  // function handleSelectAnswer(event, correct_answer) {
-
-  // }
-  // handle submit button
-  // function handleSubmit() {
-  //   console.log(this);
-  // }
 
   getQuestions(handleQuizzDisplay);
   return <div className="test"></div>;
