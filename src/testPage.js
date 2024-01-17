@@ -1,4 +1,3 @@
-import React from "react";
 function TestPage() {
   const triviaAPI = "https://opentdb.com/api.php?amount=5";
   let score = 0;
@@ -15,8 +14,8 @@ function TestPage() {
     const quizz = data.results;
     //create html elements for questions
     quizz.forEach((quiz) => {
-      const questionContent = document.createElement("p");
       const questionContainer = document.createElement("div");
+      const questionContent = document.createElement("p");
       const answersContent = document.createElement("div");
       const lines = document.createElement("hr");
       questionContainer.classList.add("question-container");
@@ -49,10 +48,6 @@ function TestPage() {
           )}`
         );
 
-        // answerInput.addEventListener("change", (event) => {
-        //   handleSelectAnswer(event, quiz.correct_answer);
-        // });
-
         const answerLabel = document.createElement("label");
         answerLabel.setAttribute(
           "for",
@@ -73,16 +68,16 @@ function TestPage() {
       quizzBlock.append(questionContainer, lines);
     });
 
-    // create submitButton
+    // create submit button
     const submitButton = document.createElement("button");
     const resultLine = document.createElement("div");
-    submitButton.onclick = () => {
-      handleResult(quizz);
-    };
     submitButton.setAttribute("type", "submit");
     submitButton.classList.add("submit-button", "btn", "btn-primary");
     submitButton.innerHTML = "Check answers";
     quizzBlock.append(resultLine, submitButton);
+    submitButton.onclick = () => {
+      handleResult(quizz);
+    };
     // create restart button
     const restartButton = document.createElement("button");
     restartButton.classList.add("restart-button", "btn", "btn-success");
@@ -90,8 +85,8 @@ function TestPage() {
     restartButton.onclick = () => {
       handleRestart();
     };
-    // handle change button
-    function changeButton() {
+    // handle hide buttons
+    function hideButton() {
       submitButton.classList.add("hide-button");
       quizzBlock.append(restartButton);
     }
@@ -100,7 +95,7 @@ function TestPage() {
 
     function handleResult(questionsData) {
       var answerContainers = quizzBlock.querySelectorAll(".answers-container");
-      console.log(answerContainers);
+      // console.log(answerContainers);
       var userAnswer = "";
       var userAnswerID = "";
 
@@ -110,7 +105,7 @@ function TestPage() {
         );
         if (answerLocation === null) {
           alert("please answer all 5 questions");
-          return changeButton();
+          return hideButton();
         } else {
           userAnswer = answerLocation.value;
           userAnswerID = answerContainers[i].querySelector(
@@ -118,27 +113,23 @@ function TestPage() {
           ).id;
 
           if (userAnswer === questionsData[i].correct_answer) {
-            //     // add to the number of correct answers
+            // add to the number of correct answers
             score++;
 
             document
               .querySelector("label[for=" + userAnswerID + "]")
               .classList.add("correct-selection");
-            // .classList.add("correct_selection");
           }
-          //   // if answer is wrong or blank
+          // check if answer is wrong or blank
           else {
             document
               .querySelector("label[for=" + userAnswerID + "]")
               .classList.add("wrong-selection");
-
-            // answerContainers[i].querySelector("label[" + userAnswerID + "]");
-            // .classList.add("wrong_selection");
           }
         }
       }
       resultLine.innerHTML = `you have ${score} correct answers`;
-      changeButton();
+      hideButton();
     }
   }
 

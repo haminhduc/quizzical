@@ -59,11 +59,13 @@ input[type="radio"] {
   display: none;
   cursor: pointer;
 }
-
+/* answer box */
 label {
+  min-width: 230px;
   padding: 3px;
   border: 1px solid black;
   border-radius: 6px;
+  text-align: center;
 }
 /* highlight selected label */
 input[type="radio"]:checked + label {
